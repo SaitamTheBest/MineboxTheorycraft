@@ -6,6 +6,7 @@ import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.*;
 import org.mineboxtheorycraft.filedata.FileIO;
 import org.mineboxtheorycraft.listener.AddItemListener;
+import org.mineboxtheorycraft.listener.ModifyItemListener;
 import org.mineboxtheorycraft.listener.SearchItemListener;
 import org.mineboxtheorycraft.model.Item;
 
@@ -35,10 +36,16 @@ public class Main {
                         .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
                 )
         ).createGlobal(api).join();
+        SlashCommand.with("modify","Modifier un item",Arrays.asList(
+                        SlashCommandOption
+                                .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
+                )
+        ).createGlobal(api).join();
         System.out.println("[End] Enregistrement des SlashCommands");
         //SlashCommandsListener
         api.addSlashCommandCreateListener(new AddItemListener());
         api.addSlashCommandCreateListener(new SearchItemListener());
+        api.addSlashCommandCreateListener(new ModifyItemListener());
 
         //Load items
         System.out.println("[Start] Lecture des données");
