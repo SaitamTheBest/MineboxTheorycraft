@@ -4,32 +4,26 @@ import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
 import org.mineboxtheorycraft.filedata.FileIO;
-import org.mineboxtheorycraft.message.AddItemMessage;
 import org.mineboxtheorycraft.model.Item;
 
-import java.io.IOException;
-
-public class AddItemListener implements SlashCommandCreateListener {
+public class SearchItemListener implements SlashCommandCreateListener {
     @Override
     public void onSlashCommandCreate(SlashCommandCreateEvent slashCommandCreateEvent) {
         SlashCommandInteraction interaction = slashCommandCreateEvent.getSlashCommandInteraction();
         String command = interaction.getCommandName();
-        if (command.equals("add-item"))
-        {
+        if (command.equals("search")){
             String name = interaction.getArgumentStringValueByName("name").get();
-            Long price = interaction.getArgumentLongValueByName("price").get();
 
-            Item item = new Item(name,price);
-            try {
-                FileIO.writeObject(item);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            int index = FileIO.searchItem(name);
+            if (index == -1){
+                interaction.createImmediateResponder().setContent("Introuvable").respond();
             }
-
-            interaction.createImmediateResponder()
-                    .setContent("")
-                    .addEmbed(AddItemMessage.AddItemEmbed(name,price))
-                    .respond();
+            else {
+                Item item = FileIO.itemArrayList.get(index);
+                interaction.createImmediateResponder()
+                        .setContent("Nom : "+item.getName()+"\nPrix :"+item.getPrice())
+                        .respond();
+            }
         }
     }
 }
