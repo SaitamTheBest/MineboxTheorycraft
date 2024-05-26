@@ -1,31 +1,49 @@
 package org.mineboxtheorycraft.model;
 
 
+import jdk.jfr.Percentage;
+
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.HashMap;
 
 public class Item implements Serializable {
     private String name;
     private Long price;
-    private ArrayList<Item> craftItem;
+    private URL urlImage;
+
+    private HashMap<Item,Long> craftItem;
+
+    public Item(String name, Long price, URL urlImage) {
+        this.name = name;
+        this.price = price;
+        this.urlImage = urlImage;
+        craftItem = new HashMap<Item,Long>();
+    }
 
     public Item(String name, Long price) {
         this.name = name;
         this.price = price;
-        craftItem = new ArrayList<Item>();
+        this.urlImage = null;
+        craftItem = new HashMap<Item,Long>();
     }
 
-    public void addItemForCraft(Item item) {
-        craftItem.add(item);
+
+    public URL getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(URL urlImage) {
+        this.urlImage = urlImage;
+    }
+
+
+    public void addItemForCraft(Item item, Long quantity) {
+        craftItem.put(item, quantity);
     }
 
     public void removeItemForCraft(Item itemToRemove) {
-        for(Item item : craftItem) {
-            if (item.equals(itemToRemove)){
-                craftItem.remove(item);
-                return;
-            }
-        }
+        craftItem.remove(itemToRemove);
     }
 
     public Long getPrice() {
@@ -42,5 +60,35 @@ public class Item implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long itemPriceCraft() {
+        long itemPriceCraft = 0L;
+        if (craftItem.isEmpty()) {
+            return itemPriceCraft;
+        }
+        else {
+            for(HashMap.Entry<Item,Long> entry : craftItem.entrySet()) {
+                itemPriceCraft += entry.getKey().getPrice() * entry.getValue();
+            }
+        }
+        return itemPriceCraft;
+    }
+
+    public double rentabilyCraftPercentage() {
+        double percentage = 0;
+        if (craftItem.isEmpty()) {
+            return percentage;
+        } else {
+            long itemPriceCraft = itemPriceCraft();
+            long difference = price - itemPriceCraft;
+            percentage = ((double) difference / price) * 100;
+        }
+        return percentage;
+    }
+
+
+    public HashMap<Item, Long> getCraftItem() {
+        return craftItem;
     }
 }

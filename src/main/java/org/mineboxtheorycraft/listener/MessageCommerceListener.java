@@ -20,7 +20,8 @@ public class MessageCommerceListener implements SlashCommandCreateListener {
             }
 
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setDescription("`"+messageCommerce+"`\n");
+            embedBuilder.setTitle("Message `/commerce`");
+            embedBuilder.setDescription("```"+messageCommerce+"```");
 
             interaction.createImmediateResponder().addEmbed(embedBuilder)
                     .addComponents(

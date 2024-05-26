@@ -4,6 +4,7 @@ import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
 import org.mineboxtheorycraft.filedata.FileIOItemData;
+import org.mineboxtheorycraft.message.PresentationItemMessage;
 import org.mineboxtheorycraft.model.Item;
 
 public class SearchItemListener implements SlashCommandCreateListener {
@@ -21,7 +22,7 @@ public class SearchItemListener implements SlashCommandCreateListener {
             else {
                 Item item = FileIOItemData.itemArrayList.get(index);
                 interaction.createImmediateResponder()
-                        .setContent("Nom : "+item.getName()+"\nPrix :"+item.getPrice())
+                        .addEmbed(PresentationItemMessage.presentationItem(item))
                         .respond();
             }
         }

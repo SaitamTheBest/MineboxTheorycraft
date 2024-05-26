@@ -10,7 +10,7 @@ import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.listener.interaction.ModalSubmitListener;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
 import org.mineboxtheorycraft.filedata.FileIOItemData;
-import org.mineboxtheorycraft.message.SearchItemMessage;
+import org.mineboxtheorycraft.message.ModifyResultItemMessage;
 import org.mineboxtheorycraft.model.Item;
 
 import java.io.IOException;
@@ -73,9 +73,8 @@ public class ModifyItemListener implements SlashCommandCreateListener, ModalSubm
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
                 modalInteraction.createImmediateResponder().setContent("Item mis à jour avec succès!")
-                        .addEmbed(SearchItemMessage.SearchItemEmbed(previousName,newName,previousPrice,newPrice)).respond();
+                        .addEmbed(ModifyResultItemMessage.SearchItemEmbed(previousName,newName,previousPrice,newPrice)).respond();
             } else {
                 modalInteraction.createImmediateResponder().setContent("Erreur lors de la mise à jour de l'item.").respond();
             }

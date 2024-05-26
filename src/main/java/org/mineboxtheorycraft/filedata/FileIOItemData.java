@@ -9,10 +9,16 @@ public class FileIOItemData {
     public static ArrayList<Item> itemArrayList  = new ArrayList<Item>();
 
     public static void writeObject(Item item) throws IOException {
-        itemArrayList.add(item);
+        int index = searchItem(item.getName());
+        if (index != -1) {
+            itemArrayList.set(index, item);
+        } else {
+            itemArrayList.add(item);
+        }
         ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("data_items.txt"));
         outputStream.writeObject(itemArrayList);
         outputStream.close();
+        System.out.println(FileIOItemData.itemArrayList.size());
     }
 
     public static void readObjects() throws IOException, ClassNotFoundException {
