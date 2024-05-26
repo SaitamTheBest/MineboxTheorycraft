@@ -5,7 +5,7 @@ import org.mineboxtheorycraft.model.Item;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileIO {
+public class FileIOItemData {
     public static ArrayList<Item> itemArrayList  = new ArrayList<Item>();
 
     public static void writeObject(Item item) throws IOException {

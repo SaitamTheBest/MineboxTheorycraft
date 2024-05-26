@@ -2,19 +2,14 @@ package org.mineboxtheorycraft;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
-import org.javacord.api.entity.intent.Intent;
 import org.javacord.api.interaction.*;
-import org.mineboxtheorycraft.filedata.FileIO;
-import org.mineboxtheorycraft.listener.AddItemListener;
-import org.mineboxtheorycraft.listener.ModifyItemListener;
-import org.mineboxtheorycraft.listener.SearchItemListener;
-import org.mineboxtheorycraft.model.Item;
+import org.mineboxtheorycraft.filedata.FileIOItemData;
+import org.mineboxtheorycraft.filedata.FileIOMessageCommerce;
+import org.mineboxtheorycraft.listener.*;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -41,15 +36,23 @@ public class Main {
                                 .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
                 )
         ).createGlobal(api).join();
+        SlashCommand.with("message-commerce","Afficher ou modifier le message commerce").createGlobal(api).join();
         System.out.println("[End] Enregistrement des SlashCommands");
         //SlashCommandsListener
         api.addSlashCommandCreateListener(new AddItemListener());
         api.addSlashCommandCreateListener(new SearchItemListener());
-        api.addSlashCommandCreateListener(new ModifyItemListener());
+        ModifyItemListener modifyItemListener = new ModifyItemListener();
+        api.addSlashCommandCreateListener(modifyItemListener);
+        api.addModalSubmitListener(modifyItemListener);
+        api.addSlashCommandCreateListener(new MessageCommerceListener());
+        ModifyMessageCommerceListener modifyMessageCommerceListener = new ModifyMessageCommerceListener();
+        api.addButtonClickListener(modifyMessageCommerceListener);
+        api.addModalSubmitListener(modifyMessageCommerceListener);
 
         //Load items
         System.out.println("[Start] Lecture des données");
-        FileIO.readObjects();
+        FileIOItemData.readObjects();
+        FileIOMessageCommerce.readMessageInFile();
         System.out.println("[End] Lecture des données");
     }
 }

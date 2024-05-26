@@ -3,7 +3,7 @@ package org.mineboxtheorycraft.listener;
 import org.javacord.api.event.interaction.SlashCommandCreateEvent;
 import org.javacord.api.interaction.SlashCommandInteraction;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
-import org.mineboxtheorycraft.filedata.FileIO;
+import org.mineboxtheorycraft.filedata.FileIOItemData;
 import org.mineboxtheorycraft.message.AddItemMessage;
 import org.mineboxtheorycraft.model.Item;
 
@@ -21,7 +21,7 @@ public class AddItemListener implements SlashCommandCreateListener {
 
             Item item = new Item(name,price);
             try {
-                FileIO.writeObject(item);
+                FileIOItemData.writeObject(item);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
