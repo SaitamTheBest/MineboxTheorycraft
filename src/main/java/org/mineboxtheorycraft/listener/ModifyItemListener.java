@@ -14,6 +14,8 @@ import org.mineboxtheorycraft.message.ModifyResultItemMessage;
 import org.mineboxtheorycraft.model.Item;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ModifyItemListener implements SlashCommandCreateListener, ModalSubmitListener {
     private int index;
@@ -36,6 +38,9 @@ public class ModifyItemListener implements SlashCommandCreateListener, ModalSubm
                         ,ActionRow.of(
                                 TextInput.create(TextInputStyle.SHORT, "modifyPrice", "Prix de l'item", "Actuel = " + item.getPrice(), "")
                         )
+                        ,ActionRow.of(
+                                TextInput.create(TextInputStyle.SHORT, "modifyImage", "Image de l'item (URL uniquement)", false)
+                        )
                 ).join();
             }
         }
@@ -47,6 +52,7 @@ public class ModifyItemListener implements SlashCommandCreateListener, ModalSubm
         if (modalInteraction.getCustomId().equals("modifyItemModal")) {
             String newName = modalInteraction.getTextInputValueByCustomId("modifyName").orElse("");
             String priceString = modalInteraction.getTextInputValueByCustomId("modifyPrice").orElse("0");
+            String newImageUrl = modalInteraction.getTextInputValueByCustomId("modifyImage").orElse("");
             Long newPrice;
             if (index != -1) {
                 Item item = FileIOItemData.itemArrayList.get(index);
@@ -68,6 +74,16 @@ public class ModifyItemListener implements SlashCommandCreateListener, ModalSubm
                 if (!priceString.isEmpty() || !newPrice.equals(0L)) {
                     item.setPrice(newPrice);
                 }
+
+                if (!newImageUrl.isEmpty()){
+                    try {
+                        URL urlImage = new URL(newImageUrl);
+                        item.setUrlImage(urlImage);
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
                 try {
                     FileIOItemData.writeObject(item);
                 } catch (IOException e) {
