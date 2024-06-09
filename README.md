@@ -80,7 +80,7 @@ En utilisant un IDE, ajouter en paramètre de l'exécution du programme le `toke
 
 
 
-## Auteurs
+## Auteur
 
 - [@SaitamTheBest](https://github.com/SaitamTheBest) - DEVEZE Matias
 
