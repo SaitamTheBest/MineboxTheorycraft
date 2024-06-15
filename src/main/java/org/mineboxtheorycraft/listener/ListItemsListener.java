@@ -15,10 +15,8 @@ import org.mineboxtheorycraft.model.Item;
 import org.mineboxtheorycraft.model.SortMethodItemsList;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import static org.mineboxtheorycraft.filedata.FileIOItemData.itemArrayList;
 
 public class ListItemsListener implements SlashCommandCreateListener, SelectMenuChooseListener {
     @Override

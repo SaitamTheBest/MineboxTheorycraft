@@ -17,6 +17,7 @@ import org.mineboxtheorycraft.model.SortMethodItemsList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class SearchItemListener implements SlashCommandCreateListener, SelectMenuChooseListener {
     @Override
@@ -24,7 +25,8 @@ public class SearchItemListener implements SlashCommandCreateListener, SelectMen
         SlashCommandInteraction interaction = slashCommandCreateEvent.getSlashCommandInteraction();
         String command = interaction.getCommandName();
         if (command.equals("search")){
-            String name = interaction.getArgumentStringValueByName("name").get();
+            String name = interaction.getArgumentStringValueByName("name").orElse("");
+            System.out.println("Searching for: " + name);
 
             if (name.isEmpty()){
                 List<SelectMenuOption> options = new ArrayList<>();
@@ -36,8 +38,8 @@ public class SearchItemListener implements SlashCommandCreateListener, SelectMen
                         .addComponents(
                                 ActionRow.of(
                                         SelectMenu.create(
-                                                "menuListItems",
-                                                "Choisissez une méthode de tri",
+                                                "menuListItemSearch",
+                                                "Choisissez un item",
                                                 options
                                         )
                                 )
@@ -63,10 +65,11 @@ public class SearchItemListener implements SlashCommandCreateListener, SelectMen
     public void onSelectMenuChoose(SelectMenuChooseEvent selectMenuChooseEvent) {
         SelectMenuInteraction selectMenuInteraction = selectMenuChooseEvent.getSelectMenuInteraction();
         String customId = selectMenuInteraction.getCustomId();
-        if (customId.equals("menuListItems")) {
+        if (customId.equals("menuListItemSearch")) {
             List<String> selectedValues = selectMenuInteraction.getChosenOptions().stream()
                     .map(SelectMenuOption::getValue)
                     .toList();
+
             Item item = FileIOItemData.itemArrayList.get(FileIOItemData.searchItem(selectedValues.get(0)));
 
             selectMenuInteraction.createOriginalMessageUpdater()
