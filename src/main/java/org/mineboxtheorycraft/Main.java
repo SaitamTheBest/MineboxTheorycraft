@@ -44,22 +44,31 @@ public class Main {
                                 .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
                 )
         ).createGlobal(api).join();
+        SlashCommand.with("list-items","Afficher la liste des items suivant un tri").createGlobal(api).join();
         System.out.println("[End] Enregistrement des SlashCommands");
+
         //SlashCommandsListener
         api.addSlashCommandCreateListener(new AddItemListener());
         api.addSlashCommandCreateListener(new SearchItemListener());
+
         ModifyItemListener modifyItemListener = new ModifyItemListener();
         api.addSlashCommandCreateListener(modifyItemListener);
         api.addModalSubmitListener(modifyItemListener);
         api.addSlashCommandCreateListener(new MessageCommerceListener());
+
         ModifyMessageCommerceListener modifyMessageCommerceListener = new ModifyMessageCommerceListener();
         api.addButtonClickListener(modifyMessageCommerceListener);
         api.addModalSubmitListener(modifyMessageCommerceListener);
+
         CraftItemListener craftItemListener = new CraftItemListener();
         api.addButtonClickListener(craftItemListener);
         api.addSlashCommandCreateListener(craftItemListener);
         api.addSelectMenuChooseListener(craftItemListener);
         api.addModalSubmitListener(craftItemListener);
+
+        ListItemsListener listItemsListener = new ListItemsListener();
+        api.addSlashCommandCreateListener(listItemsListener);
+        api.addSelectMenuChooseListener(listItemsListener);
 
 
         //Load items
