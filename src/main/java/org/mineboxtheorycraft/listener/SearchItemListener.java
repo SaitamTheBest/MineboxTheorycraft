@@ -26,7 +26,6 @@ public class SearchItemListener implements SlashCommandCreateListener, SelectMen
         String command = interaction.getCommandName();
         if (command.equals("search")){
             String name = interaction.getArgumentStringValueByName("name").orElse("");
-            System.out.println("Searching for: " + name);
 
             if (name.isEmpty()){
                 List<SelectMenuOption> options = new ArrayList<>();
