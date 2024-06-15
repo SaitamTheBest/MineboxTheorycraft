@@ -77,10 +77,10 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
                 handleRemoveCraftItem(button);
                 break;
             default:
-                button.createImmediateResponder()
+                button.createOriginalMessageUpdater()
                         .setContent("Action non reconnue")
                         .setFlags(MessageFlag.EPHEMERAL)
-                        .respond();
+                        .update();
                 break;
         }
     }
@@ -95,12 +95,12 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
         }
 
         if (options.isEmpty()) {
-            button.createImmediateResponder()
+            button.createOriginalMessageUpdater()
                     .setContent("Aucun item disponible à ajouter")
                     .setFlags(MessageFlag.EPHEMERAL)
-                    .respond();
+                    .update();
         } else {
-            button.createImmediateResponder()
+            button.createOriginalMessageUpdater()
                     .setContent("Choisissez un item pour le craft")
                     .addComponents(
                             ActionRow.of(
@@ -108,7 +108,7 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
                             )
                     )
                     .setFlags(MessageFlag.EPHEMERAL)
-                    .respond();
+                    .update();
         }
     }
 
@@ -121,7 +121,7 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
                 );
             }
 
-            button.createImmediateResponder()
+            button.createOriginalMessageUpdater()
                     .setContent("Choisissez un item à supprimer du craft")
                     .addComponents(
                             ActionRow.of(
@@ -129,12 +129,12 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
                             )
                     )
                     .setFlags(MessageFlag.EPHEMERAL)
-                    .respond();
+                    .update();
         } else {
-            button.createImmediateResponder()
+            button.createOriginalMessageUpdater()
                     .setContent("Aucun item à supprimer du craft")
                     .setFlags(MessageFlag.EPHEMERAL)
-                    .respond();
+                    .update();
         }
     }
 
@@ -175,12 +175,11 @@ public class CraftItemListener implements SlashCommandCreateListener, ButtonClic
             int index = FileIOItemData.searchItem(selectedItemName);
             Item selectedItem = FileIOItemData.itemArrayList.get(index);
             if (selectedItem != null && itemToModify.getCraftItem().containsKey(selectedItem)) {
-                // Remove the selected item from the craft
                 itemToModify.getCraftItem().remove(selectedItem);
-                selectMenuInteraction.createImmediateResponder()
+                selectMenuInteraction.createOriginalMessageUpdater()
                         .setContent("Item " + selectedItemName + " supprimé du craft de " + itemToModify.getName())
                         .setFlags(MessageFlag.EPHEMERAL)
-                        .respond();
+                        .update();
             }
         }
     }
