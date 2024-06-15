@@ -7,6 +7,7 @@ Un simple bot Discord qui utilise *Javacord*. Le but de ce bot est de faire de c
 ## Documentation
 
 Dans cette documentation, il y a une description pour chaque commande présente sur le bot.
+
 [Cliquez ici pour aller vers la documentation du bot](https://github.com/SaitamTheBest/MineboxTheorycraft/wiki)
 
 
