@@ -49,7 +49,10 @@ public class Main {
 
         //SlashCommandsListener
         api.addSlashCommandCreateListener(new AddItemListener());
-        api.addSlashCommandCreateListener(new SearchItemListener());
+
+        SearchItemListener searchItemListener = new SearchItemListener();
+        api.addSlashCommandCreateListener(searchItemListener);
+        api.addSelectMenuChooseListener(searchItemListener);
 
         ModifyItemListener modifyItemListener = new ModifyItemListener();
         api.addSlashCommandCreateListener(modifyItemListener);
