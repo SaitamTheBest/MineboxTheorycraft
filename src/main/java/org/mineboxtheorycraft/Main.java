@@ -30,7 +30,7 @@ public class Main {
         ).createGlobal(api).join();
         SlashCommand.with("search","Recherche un item",Arrays.asList(
             SlashCommandOption
-                    .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
+                    .create(SlashCommandOptionType.STRING,"name","Nom de l'item",false)
             )
         ).createGlobal(api).join();
         SlashCommand.with("modify","Modifier un item",Arrays.asList(

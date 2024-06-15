@@ -12,6 +12,7 @@ import org.javacord.api.listener.interaction.SelectMenuChooseListener;
 import org.javacord.api.listener.interaction.SlashCommandCreateListener;
 import org.mineboxtheorycraft.message.ListItemsMessage;
 import org.mineboxtheorycraft.model.Item;
+import org.mineboxtheorycraft.model.SortMethodItemsList;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,8 +74,7 @@ public class ListItemsListener implements SlashCommandCreateListener, SelectMenu
     }
 
     private void alphabeticMethod(SelectMenuInteraction selectMenuInteraction) {
-        ArrayList<Item> alphabeticList = itemArrayList;
-        alphabeticList.sort(Comparator.comparing(Item::getName));
+        ArrayList<Item> alphabeticList = SortMethodItemsList.alphabeticMethod();
 
         selectMenuInteraction.createOriginalMessageUpdater()
                 .addEmbed(ListItemsMessage.ListItemEmbed(alphabeticList))
@@ -82,8 +82,7 @@ public class ListItemsListener implements SlashCommandCreateListener, SelectMenu
     }
 
     private void priceMethod(SelectMenuInteraction selectMenuInteraction) {
-        ArrayList<Item> priceList = itemArrayList;
-        priceList.sort(Comparator.comparing(Item::getPrice).reversed());
+        ArrayList<Item> priceList = SortMethodItemsList.priceMethod();
 
         selectMenuInteraction.createOriginalMessageUpdater()
                 .addEmbed(ListItemsMessage.ListItemEmbed(priceList))
@@ -91,9 +90,8 @@ public class ListItemsListener implements SlashCommandCreateListener, SelectMenu
     }
 
     private void rentabilityMethod(SelectMenuInteraction selectMenuInteraction) {
-        ArrayList<Item> rentabilityList = itemArrayList;
-        rentabilityList.sort(Comparator.comparing(Item::getPrice));
-        System.out.println("Test");
+        ArrayList<Item> rentabilityList = SortMethodItemsList.rentabilityMethod();
+
         selectMenuInteraction.createOriginalMessageUpdater()
                 .addEmbed(ListItemsMessage.ListItemEmbed(rentabilityList))
                 .update();
