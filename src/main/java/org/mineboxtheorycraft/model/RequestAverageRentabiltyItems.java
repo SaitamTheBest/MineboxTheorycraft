@@ -20,7 +20,7 @@ public class RequestAverageRentabiltyItems {
         return isRentable;
     }
 
-    private static double average() {
+    public static double average() {
         double sum = 0;
 
         for (Item item : FileIOItemData.itemArrayList) {
