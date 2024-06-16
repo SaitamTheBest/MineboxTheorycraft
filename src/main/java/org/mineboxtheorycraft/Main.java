@@ -2,14 +2,12 @@ package org.mineboxtheorycraft;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
-import org.javacord.api.entity.activity.ActivityFlag;
 import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.interaction.*;
 import org.mineboxtheorycraft.filedata.FileIOItemData;
 import org.mineboxtheorycraft.filedata.FileIOMessageCommerce;
 import org.mineboxtheorycraft.listener.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
@@ -36,7 +34,7 @@ public class Main {
         ).createGlobal(api).join();
         SlashCommand.with("search","Recherche un item",Arrays.asList(
             SlashCommandOption
-                    .create(SlashCommandOptionType.STRING,"name","Nom de l'item",false)
+                    .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
             )
         ).createGlobal(api).join();
         SlashCommand.with("modify","Modifier un item",Arrays.asList(
@@ -45,9 +43,16 @@ public class Main {
             )
         ).createGlobal(api).join();
         SlashCommand.with("message-commerce","Afficher ou modifier le message commerce").createGlobal(api).join();
-        SlashCommand.with("craft-item","Définit les craft d'un item",Arrays.asList(
+        SlashCommand.with("add-craft-item","Ajoute un craft d'un item",Arrays.asList(
                         SlashCommandOption
-                                .create(SlashCommandOptionType.STRING,"name","Nom de l'item",true)
+                                .create(SlashCommandOptionType.STRING,"name-item-to-modify","Nom de l'item dont vous voulez ajouter un craft",true),
+                SlashCommandOption
+                        .create(SlashCommandOptionType.STRING,"name-item-add","Nom de l'item",true)
+                )
+        ).createGlobal(api).join();
+        SlashCommand.with("delete-craft-item","Ajoute un craft d'un item",Arrays.asList(
+                        SlashCommandOption
+                                .create(SlashCommandOptionType.STRING,"name","Nom de l'item dont vous voulez supprimer un craft",true)
                 )
         ).createGlobal(api).join();
         SlashCommand.with("list-items","Afficher la liste des items suivant un tri").createGlobal(api).join();
@@ -61,7 +66,6 @@ public class Main {
         // Command /search
         SearchItemListener searchItemListener = new SearchItemListener();
         api.addSlashCommandCreateListener(searchItemListener);
-        api.addSelectMenuChooseListener(searchItemListener);
 
         // Command /modify
         ModifyItemListener modifyItemListener = new ModifyItemListener();
@@ -74,12 +78,15 @@ public class Main {
         api.addButtonClickListener(modifyMessageCommerceListener);
         api.addModalSubmitListener(modifyMessageCommerceListener);
 
-        // Command /craft-item
-        CraftItemListener craftItemListener = new CraftItemListener();
-        api.addButtonClickListener(craftItemListener);
-        api.addSlashCommandCreateListener(craftItemListener);
-        api.addSelectMenuChooseListener(craftItemListener);
-        api.addModalSubmitListener(craftItemListener);
+        // Command /add-craft-item
+        AddCraftItemListener addCraftItemListener = new AddCraftItemListener();
+        api.addSlashCommandCreateListener(addCraftItemListener);
+        api.addModalSubmitListener(addCraftItemListener);
+
+        // Command /delete-craft-item
+        DeleteCraftItemListener deleteCraftItemListener = new DeleteCraftItemListener();
+        api.addSlashCommandCreateListener(deleteCraftItemListener);
+        api.addSelectMenuChooseListener(deleteCraftItemListener);
 
         // Command /list-items
         ListItemsListener listItemsListener = new ListItemsListener();

@@ -74,24 +74,27 @@ public class ListItemsListener implements SlashCommandCreateListener, SelectMenu
     private void alphabeticMethod(SelectMenuInteraction selectMenuInteraction) {
         ArrayList<Item> alphabeticList = SortMethodItemsList.alphabeticMethod();
 
-        selectMenuInteraction.createOriginalMessageUpdater()
+        selectMenuInteraction.createImmediateResponder()
                 .addEmbed(ListItemsMessage.ListItemEmbed(alphabeticList))
-                .update();
+                .setFlags(MessageFlag.SOURCE_MESSAGE_DELETED)
+                .respond();
     }
 
     private void priceMethod(SelectMenuInteraction selectMenuInteraction) {
         ArrayList<Item> priceList = SortMethodItemsList.priceMethod();
 
-        selectMenuInteraction.createOriginalMessageUpdater()
+        selectMenuInteraction.createImmediateResponder()
                 .addEmbed(ListItemsMessage.ListItemEmbed(priceList))
-                .update();
+                .setFlags(MessageFlag.SOURCE_MESSAGE_DELETED)
+                .respond();
     }
 
     private void rentabilityMethod(SelectMenuInteraction selectMenuInteraction) {
         ArrayList<Item> rentabilityList = SortMethodItemsList.rentabilityMethod();
 
-        selectMenuInteraction.createOriginalMessageUpdater()
+        selectMenuInteraction.createImmediateResponder()
                 .addEmbed(ListItemsMessage.ListItemEmbed(rentabilityList))
-                .update();
+                .setFlags(MessageFlag.SOURCE_MESSAGE_DELETED)
+                .respond();
     }
 }
