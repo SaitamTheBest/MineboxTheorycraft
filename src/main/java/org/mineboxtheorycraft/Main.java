@@ -7,6 +7,7 @@ import org.javacord.api.interaction.*;
 import org.mineboxtheorycraft.filedata.FileIOItemData;
 import org.mineboxtheorycraft.filedata.FileIOMessageCommerce;
 import org.mineboxtheorycraft.listener.*;
+import org.mineboxtheorycraft.message.CraftItemMessage;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -56,6 +57,13 @@ public class Main {
                 )
         ).createGlobal(api).join();
         SlashCommand.with("list-items","Afficher la liste des items suivant un tri").createGlobal(api).join();
+        SlashCommand.with("craft","Calcul le prix du craft et le nombre d'item",Arrays.asList(
+                        SlashCommandOption
+                                .create(SlashCommandOptionType.STRING,"name","Nom de l'item que vous voulez craft",true),
+                        SlashCommandOption
+                                .create(SlashCommandOptionType.LONG,"quantity","Quantité à craft",true)
+                )
+        ).createGlobal(api).join();
         System.out.println("[End] Enregistrement des SlashCommands");
 
         /// ***** SlashCommandsListener *****
@@ -92,6 +100,10 @@ public class Main {
         ListItemsListener listItemsListener = new ListItemsListener();
         api.addSlashCommandCreateListener(listItemsListener);
         api.addSelectMenuChooseListener(listItemsListener);
+
+        // Command /craft
+        CraftItemListener craftItemListener = new CraftItemListener();
+        api.addSlashCommandCreateListener(craftItemListener);
 
         /// ***** Load items *****
         System.out.println("[Start] Lecture des données");
